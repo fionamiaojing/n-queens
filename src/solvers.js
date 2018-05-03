@@ -35,38 +35,25 @@ window.findNRooksSolution = function(n) {
 window.countNRooksSolutions = function(n) {
   var solutionCount = 0;
   var board = new Board({n: n});
-  var position;
 
   //define recursive function
-  var recursive = function(counter, board, lastRookPosition) {
-    //if counter === 0
-    //push board to solutionArray;
-    if (counter === 0) {
+  var recursive = function(row, board) {
+    if (row === n) {
       solutionCount++;
       return;
     }
-  
-    //loop through every square in board
-    //place piece in square
-    //call reccusive on new board (counter = counter - 1);
-      
-    for (var row = 0; row < n; row++) {
-      for (var col = 0; col < n; col++) {
-        // console.log("board before toggle" + JSON.stringify(board.rows()));
-        position = row * n + col;
-        if (position > lastRookPosition) {
-          board.togglePiece(row, col);
-          if (!board.hasAnyRooksConflicts()) {
-            // console.log("board after toggle" + JSON.stringify(board.rows()));
-            recursive(counter - 1, board, position);
-          }
-          board.togglePiece(row, col);                                 
-        }
+    
+    for (var col = 0; col < n; col++) {
+      board.togglePiece(row, col);
+      if (!board.hasAnyRooksConflicts()) {
+        // console.log("board after toggle" + JSON.stringify(board.rows()));
+        recursive(row+1, board);
       }
+      board.togglePiece(row, col);                                   
     }
   };
   //Invoke the recursive function:
-  recursive(n, board, -1);
+  recursive(0, board);
   
   // console.log(JSON.stringify(solutionArray));
 
@@ -135,36 +122,32 @@ window.countNQueensSolutions = function(n) {
   var position;
 
   //define recursive function
-  var recursive = function(counter, board, lastQueenPosition) {
+  var recursive = function(row, board) {
     //if counter === 0
     //push board to solutionArray;
-    if (counter === 0) {
+    if (row === n) {
       solutionCount++;
       return;
     }
-  
-    //loop through every square in board
-    //place piece in square
-    //call reccusive on new board (counter = counter - 1);
-    for (var row = 0; row < n; row++) {
-      for (var col = 0; col < n; col++) {
-        // console.log("board before toggle" + JSON.stringify(board.rows()));
-        position = row * n + col;
-        var placedQueen = false;
-        if (position > lastQueenPosition) {
-          board.togglePiece(row, col);
-          if (!board.hasAnyQueensConflicts()) {
-            // console.log("board after toggle" + JSON.stringify(board.rows()));
-            placedQueen = true;
-            recursive(counter - 1, board, position);
-          }
-          board.togglePiece(row, col);                                 
-        }
+    var placedQueen = false;
+    for (var col = 0; col < n; col++) {
+      
+      board.togglePiece(row, col);
+      if (!board.hasAnyQueensConflicts()) {
+
+        placedQueen = true;
+        recursive(row + 1, board);
       }
+      board.togglePiece(row, col);
     }
+    
+    if (placedQueen === false) {
+      return;
+    }
+  
   };
   //Invoke the recursive function:
-  recursive(n, board, -1);
+  recursive(0, board);
   
   
 
