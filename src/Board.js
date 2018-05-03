@@ -62,7 +62,7 @@
     },
 
 
-/*
+    /*
          _             _     _
      ___| |_ __ _ _ __| |_  | |__   ___ _ __ ___ _
     / __| __/ _` | '__| __| | '_ \ / _ \ '__/ _ (_)
@@ -127,11 +127,11 @@
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
       var accumulator = 0;
       for (var row = 0; row < this.rows().length; row++) {
-        if (this.rows()[row][majorDiagonalColumnIndexAtFirstRow] != undefined) {
+        if (this.rows()[row][majorDiagonalColumnIndexAtFirstRow] !== undefined) {
           accumulator += this.rows()[row][majorDiagonalColumnIndexAtFirstRow]; 
         }
         majorDiagonalColumnIndexAtFirstRow++;
-      };
+      }
       return accumulator > 1;
     },
 
@@ -155,11 +155,11 @@
     hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow) {
       var accumulator = 0;
       for (var row = 0; row < this.rows().length; row++) {
-        if (this.rows()[row][minorDiagonalColumnIndexAtFirstRow] != undefined) {
+        if (this.rows()[row][minorDiagonalColumnIndexAtFirstRow] !== undefined) {
           accumulator += this.rows()[row][minorDiagonalColumnIndexAtFirstRow]; 
         }
         minorDiagonalColumnIndexAtFirstRow--;
-      };
+      }
       return accumulator > 1;
       
       return false; // fixme
