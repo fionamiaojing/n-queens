@@ -14,25 +14,44 @@
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n rooks placed such that none of them can attack each other
 
 
-
-window.findNRooksSolution = function(n) {
-  var solution = new Board({n: n});
+  
+window.findNRooksSolution = function(n, r =0, c = 0) {
+  var solution = new Board({n:n});
+  solution.togglePiece(r, c);
+  console.log("input for frindNrooks" + JSON.stringify(solution));
   for (var col = 0; col < n; col++) {
     for (var row = 0; row < n; row++) {
+      if (row === r && col === c) {
+        continue;
+      }
       solution.togglePiece(row, col);
       if (solution.hasAnyRooksConflicts()) {
+        //call recursively
         solution.togglePiece(row, col);
       }
     }
   };
   
-  console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
+  // console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
   return solution.rows();
 };
 
 // return the number of nxn chessboards that exist, with n rooks placed such that none of them can attack each other
 window.countNRooksSolutions = function(n) {
-  var solutionCount = undefined; //fixme
+  var solutionCount = 0;
+  var board;
+  var allSolutions = {};
+  
+  for (var row = 0; row < n; row++) {
+    for (var col = 0; col < n; col++) {
+      var solutionStringify = JSON.stringify(findNRooksSolution(n, row, col));
+      if (allSolutions[solutionStringify] === undefined) {
+        allSolutions[solutionStringify] = true;
+        console.log("solution " + solutionStringify);
+        solutionCount++;
+      }
+    }
+  }
 
   console.log('Number of solutions for ' + n + ' rooks:', solutionCount);
   return solutionCount;
